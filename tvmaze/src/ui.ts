@@ -5,7 +5,7 @@ import { IShow, IShowResult, IEpisode } from './interfaces.ts';
 const $showsList = $("#showsList");
 const $episodesArea = $("#episodesArea");
 const $searchForm = $("#searchForm");
-
+const $episodesList = $("#episodesList");
 
 /** Given list of shows, create markup for each and to DOM */
 
@@ -55,7 +55,37 @@ $searchForm.on("submit", async function (evt: JQuery.SubmitEvent) {
 });
 
 
-/** Write a clear docstring for this function... */
+/** Given an array of episode info, generates markup and appends to the episode
+ * list, then shows the previously-hidden episodes area
+ */
 
-function populateEpisodes(episodes) {
+function populateEpisodes(episodes: IEpisode[]): void {
+  $episodesList.empty();
+
+  for (const episode of episodes) {
+    const $episode = (
+      `<li>
+        ${episode.name} (season ${episode.season}, number ${episode.number})
+      </li>`
+    );
+
+    $episodesList.append($episode);
+  }
+
+  $episodesArea.show();
 }
+
+/** When button is clicked, calls API for list of episodes and displays
+ * them in the episode area
+ */
+
+async function getAndShowEpisodes(evt: JQuery.ClickEvent): Promise<void> {
+  const $clickedButton = $(evt.target);
+  const showId: number = $clickedButton.closest(".Show").data("show-id") as number;
+  const episodes: IEpisode[] = await getEpisodesOfShow(showId);
+
+  populateEpisodes(episodes);
+}
+
+// const $showEpisodeButton = $(".Show-getEpisodes");
+$showsList.on("click", ".Show-getEpisodes", getAndShowEpisodes);

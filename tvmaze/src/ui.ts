@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import { getEpisodesOfShow, searchShowsByTerm } from "./model.ts";
+import { IShow, IShowResult, IEpisode } from './interfaces.ts';
 
 const $showsList = $("#showsList");
 const $episodesArea = $("#episodesArea");
@@ -8,17 +9,16 @@ const $searchForm = $("#searchForm");
 
 /** Given list of shows, create markup for each and to DOM */
 
-function populateShows(shows) {
+function populateShows(shows: IShow[]): void {
   $showsList.empty();
-  const x = "https://static.tvmaze.com/" +
-    "uploads/images/medium_portrait/160/401704.jpg"
-  for (let show of shows) {
+
+  for (const show of shows) {
     const $show = $(
       `<div data-show-id="${show.id}" class="Show col-md-12 col-lg-6 mb-4">
          <div class="media">
            <img
-              src=${x}
-              alt="Bletchly Circle San Francisco"
+              src=${show.image}
+              alt=${show.name}
               class="w-25 me-3">
            <div class="media-body">
              <h5 class="text-primary">${show.name}</h5>

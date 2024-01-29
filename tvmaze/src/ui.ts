@@ -92,6 +92,9 @@ function populateEpisodes(episodes: IEpisode[]): void {
 async function getAndShowEpisodes(evt: JQuery.ClickEvent): Promise<void> {
   console.log("getAndShowEpisodes", evt);
 
+  // Could explicitly convert to number with Number() to ensure correct type
+  // const showId: number = Number($(evt.target).closest(".Show").data("show-id"));
+
   const showId: number = $(evt.target).closest(".Show").data("show-id") as number;
   const episodes: IEpisode[] = await getEpisodesOfShow(showId);
 

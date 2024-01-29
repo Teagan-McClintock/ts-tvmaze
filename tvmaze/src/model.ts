@@ -1,7 +1,8 @@
+import { IEpisode, IShow, IShowResult } from "./interfaces";
+
 const MISSING_IMAGE_URL = "https://tinyurl.com/missing-tv";
 const TVMAZE_API_URL = "https://api.tvmaze.com/";
 
-import { IEpisode, IShow, IShowResult } from "./interfaces";
 
 /** Given a search term, search for tv shows that match that query.
  *
@@ -18,8 +19,12 @@ async function searchShowsByTerm(term: string): Promise<IShow[]> {
 
   const result: IShowResult[] = await response.json();
 
+  // can return the map - dev's choice as sometimes explicit is better
   const searchResults = result.map(searchResult => (
+    // Could store search result IN the map
+    // const show = searchResult
     {
+      // id: show.id ...
       id: searchResult.show.id,
       name: searchResult.show.name,
       summary: searchResult.show.summary,
@@ -43,6 +48,7 @@ async function getEpisodesOfShow(id: number): Promise<IEpisode[]> {
 
   const result: IEpisode[] = await response.json();
 
+  // could be more specific on what is mapped -> episode, ep
   return result.map(r => ({
     id: r.id,
     name: r.name,

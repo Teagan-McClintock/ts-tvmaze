@@ -12,7 +12,7 @@ interface IShowResult {
     id: number;
     name: string;
     summary: string;
-    image: { medium?: string; };
+    image: { medium: string; } | null;
   };
 }
 

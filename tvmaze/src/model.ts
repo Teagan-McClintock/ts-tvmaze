@@ -11,7 +11,6 @@ import { IEpisode, IShow, IShowResult } from "./interfaces";
  */
 
 async function searchShowsByTerm(term: string): Promise<IShow[]> {
-  // ADD: Remove placeholder & make request to TVMaze search shows API.
   const response: Response = await fetch(
     `${TVMAZE_API_URL}search/shows?q=${term}`);
 
@@ -22,7 +21,7 @@ async function searchShowsByTerm(term: string): Promise<IShow[]> {
       id: searchResult.show.id,
       name: searchResult.show.name,
       summary: searchResult.show.summary,
-      image: searchResult.show.image.medium || MISSING_IMAGE_URL
+      image: searchResult.show.image?.medium || MISSING_IMAGE_URL
     }
   ));
   return searchResults;

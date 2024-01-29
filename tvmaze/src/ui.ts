@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { getEpisodesOfShow, searchShowsByTerm } from "./model.ts";
-import { IShow, IShowResult, IEpisode } from './interfaces.ts';
+import { IShow, IEpisode } from './interfaces.ts';
 
 const $showsList = $("#showsList");
 const $episodesArea = $("#episodesArea");

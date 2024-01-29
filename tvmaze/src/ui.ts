@@ -3,13 +3,15 @@ import { getEpisodesOfShow, searchShowsByTerm } from "./model.ts";
 import { IShow, IEpisode } from './interfaces.ts';
 
 const $showsList = $("#showsList");
+const $episodesList = $("#episodesList");
 const $episodesArea = $("#episodesArea");
 const $searchForm = $("#searchForm");
-const $episodesList = $("#episodesList");
 
 /** Given list of shows, create markup for each and to DOM */
 
 function populateShows(shows: IShow[]): void {
+  console.log("populateShows", shows);
+
   $showsList.empty();
 
   for (const show of shows) {
@@ -42,6 +44,8 @@ function populateShows(shows: IShow[]): void {
  */
 
 async function searchForShowAndDisplay(): Promise<void> {
+  console.log("searchForShowAndDisplay");
+
   const term: string = $("#searchForm-term").val() as string;
   const shows: IShow[] = await searchShowsByTerm(term);
 
@@ -60,6 +64,8 @@ $searchForm.on("submit", async function (evt: JQuery.SubmitEvent) {
  */
 
 function populateEpisodes(episodes: IEpisode[]): void {
+  console.log('populateEpisodes', episodes);
+
   $episodesList.empty();
 
   for (const episode of episodes) {
@@ -75,17 +81,21 @@ function populateEpisodes(episodes: IEpisode[]): void {
   $episodesArea.show();
 }
 
-/** When button is clicked, calls API for list of episodes and displays
- * them in the episode area
+/** Handle clicking on get episodes button and fetches a list of episodes from
+ * the API.
+ *
+ * Generates a showId from the closest matching DOM element for CSS class Show
+ *
+ * Calls populateEpisodes with response from API call
  */
 
 async function getAndShowEpisodes(evt: JQuery.ClickEvent): Promise<void> {
-  const $clickedButton = $(evt.target);
-  const showId: number = $clickedButton.closest(".Show").data("show-id") as number;
+  console.log("getAndShowEpisodes", evt);
+
+  const showId: number = $(evt.target).closest(".Show").data("show-id") as number;
   const episodes: IEpisode[] = await getEpisodesOfShow(showId);
 
   populateEpisodes(episodes);
 }
 
-// const $showEpisodeButton = $(".Show-getEpisodes");
 $showsList.on("click", ".Show-getEpisodes", getAndShowEpisodes);

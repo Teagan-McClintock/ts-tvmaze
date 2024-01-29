@@ -11,6 +11,8 @@ import { IEpisode, IShow, IShowResult } from "./interfaces";
  */
 
 async function searchShowsByTerm(term: string): Promise<IShow[]> {
+  console.log("searchShowsByTerm", term);
+
   const response: Response = await fetch(
     `${TVMAZE_API_URL}search/shows?q=${term}`);
 
@@ -33,6 +35,8 @@ async function searchShowsByTerm(term: string): Promise<IShow[]> {
  */
 
 async function getEpisodesOfShow(id: number): Promise<IEpisode[]> {
+  console.log("getEpisodesOfShow", id);
+
   const response = await fetch(`${TVMAZE_API_URL}shows/${id}/episodes`);
 
   if (response.status !== 200) throw new Error(String(response.status));
